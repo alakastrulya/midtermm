@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+<changeSet id="create-tables" author="alakastrulya">
+    <createTable tableName="t_animals">
+        <column name="id" type="bigserial">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="age" type="int">
+            <constraints nullable="false"/>
+        </column>
+        <column name="name" type="varchar">
+            <constraints nullable="false"/>
+        </column>
+        <column name="type" type="varchar">
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+
+    <createTable tableName="t_company">
+        <column name="id" type="bigint" autoIncrement="true">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="name" type="varchar(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="age" type="int">
+            <constraints nullable="false"/>
+        </column>
+        <column name="animals" type="bigint" defaultValueNumeric="0">
+            <constraints nullable="true"/>
+        </column>
+    </createTable>
+
+    <createTable tableName="t_sponsor">
+        <column name="id" type="bigint" autoIncrement="true">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="name" type="varchar(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="bank" type="varchar(255)">
+            <constraints nullable="false"/>
+        </column>
+
+        <column name="t_company_id" type="bigint"/>
+    </createTable>
+    <addForeignKeyConstraint constraintName="fk_sponsor_company"
+                             baseTableName="t_sponsor"
+                             baseColumnNames="t_company_id"
+                             referencedTableName="t_company"
+                             referencedColumnNames="id"
+                             onDelete="SET NULL"/>
+
+    <createTable tableName="t_sponsor_animals">
+        <column name="sponsor_id" type="bigint">
+            <constraints nullable="false"/>
+        </column>
+        <column name="animals_id" type="bigint">
+            <constraints nullable="false"/>
+        </column>
+        </createTable>
+
+        <addPrimaryKey tableName="t_sponsor_animals"
+                       columnNames="sponsor_id,animals_id"
+                       constraintName="pk_sponsor_animals"/>
+
+        <addForeignKeyConstraint constraintName="fk_sponsor_animals_sponsor"
+                                 baseTableName="t_sponsor_animals"
+                                 baseColumnNames="sponsor_id"
+                                 referencedTableName="t_sponsor"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint constraintName="fk_sponsor_animals_animal"
+                                 baseTableName="t_sponsor_animals"
+                                 baseColumnNames="animals_id"
+                                 referencedTableName="t_animals"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+</changeSet>
+</databaseChangeLog>

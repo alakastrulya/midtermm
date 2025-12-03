@@ -1,0 +1,51 @@
+
+services:
+
+  database-service:
+    image: 'postgres'
+    container_name: 'my-database-container'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 2345:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend-service:
+    build: .
+    container_name: 'my-backend-container'
+    depends_on:
+      test-database-service:
+        condition: service_healthy
+    #        database-service:
+    #          condition: service_healthy
+    environment:
+      #      - SPRING_DATASOURCE_URL=jdbc:postgresql://database-service:5432/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://test-database-service:5432/testt
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+      - SPRING_LIQUIBASE_CHANGE_LOG=classpath:db/changelog/db.changelog-master.xml
+    ports:
+      - 3333:9991
+
+  test-database-service:
+    image: 'postgres'
+    container_name: 'my-test-database-container'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=testt
+    ports:
+      - 4567:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d testt" ]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s

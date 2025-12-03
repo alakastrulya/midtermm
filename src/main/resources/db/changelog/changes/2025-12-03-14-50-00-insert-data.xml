@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="insert-data" author="aisha">
+        <insert tableName="t_animals">
+            <column name="age" value="55"/>
+            <column name="name" value="Barsik"/>
+            <column name="type" value="home"/>
+        </insert>
+        <insert tableName="t_animals">
+            <column name="age" value="2323"/>
+            <column name="name" value="Aktos"/>
+            <column name="type" value="not home"/>
+        </insert>
+        <insert tableName="t_animals">
+            <column name="age" value="54646"/>
+            <column name="name" value="BOber"/>
+            <column name="type" value="mumee"/>
+        </insert>
+
+        <insert tableName="t_company">
+            <column name="name" value="Zoo"/>
+            <column name="age" value="15"/>
+            <column name="animals" value="150"/>
+        </insert>
+        <insert tableName="t_company">
+            <column name="name" value="Коммпаниии"/>
+            <column name="age" value="8"/>
+            <column name="animals" value="89"/>
+        </insert>
+
+        <insert tableName="t_sponsor">
+            <column name="name" value="Miamia"/>
+            <column name="bank" value="kaspi"/>
+            <column name="t_company_id" value="1"/>
+        </insert>
+        <insert tableName="t_sponsor">
+            <column name="name" value="Maria Magdalenya"/>
+            <column name="bank" value="forte"/>
+            <column name="t_company_id" value="1"/>
+        </insert>
+        <insert tableName="t_sponsor">
+            <column name="name" value="ship ship"/>
+            <column name="bank" value="rbk"/>
+
+        </insert>
+    </changeSet>
+
+
+
+</databaseChangeLog>
